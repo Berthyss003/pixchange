@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PiXchange - Agence Digitale & Échange</title>
+    <!-- Importation du SDK Pi Officiel -->
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+    <style>
+        :root {
+            --primary: #6200EE;
+            --primary-dark: #3700B3;
+            --accent: #FFB300;
+            --bg-dark: #121212;
+            --bg-light: #1E1E1E;
+            --text-main: #FFFFFF;
+            --text-muted: #A0A0A0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            padding-bottom: 30px;
+        }
+
+        /* En-tête */
+        header {
+            background-color: var(--bg-light);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            color: var(--accent);
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Section Connexion */
+        .auth-section {
+            background-color: var(--bg-light);
+            padding: 30px 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .auth-section p {
+            margin-bottom: 20px;
+            color: var(--text-muted);
+        }
+
+        /* Boutons */
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+            color: black;
+            margin-top: 10px;
+        }
+
+        /* Zone Principale (Masquée au début) */
+        #main-content {
+            display: none;
+        }
+
+        /* Cartes de Services */
+        .section-title {
+            font-size: 18px;
+            color: var(--accent);
+            margin: 20px 0 10px 0;
+            border-left: 3px solid var(--primary);
+            padding-left: 10px;
+        }
+
+        .card {
+            background-color: var(--bg-light);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .card h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: var(--text-main);
+        }
+
+        .card p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .price-tag {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .btn-sm {
+            width: auto;
+            padding: 8px 15px;
+            font-size: 13px;
+        }
+
+        /* Pied de page */
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 12px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Berthyss003xchange</h1>
+        <p>Services Digitaux & Solutions Web3</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- ÉCRAN DE BIENVENUE & CONNEXION -->
+        <div id="auth-block" class="auth-section">
+            <p>Connectez-vous avec votre compte Pi pour accéder à nos micro-services et simuler vos paiements.</p>
+            <button class="btn btn-primary" onclick="connecterPionnier()">
+                Se connecter avec Pi
+            </button>
+        </div>
+
+        <!-- CONTENU DE L'APPLICATION (AFFICHÉ APRÈS CONNEXION) -->
+        <div id="main-content">
+            
+            <div class="auth-section" style="padding: 15px; background: linear-gradient(145deg, #2a1b4e, #1e1e1e);">
+                <h3 id="user-greeting" style="color: var(--accent);">Bonjour, Pionnier !</h3>
+                <p style="font-size: 12px; margin: 5px 0 0 0;">Statut : Connecté au Sandbox de test</p>
+            </div>
+
+            <h3 class="section-title">Nos Prestations de Services</h3>
+
+            <!-- Service 1 -->
+            <div class="card">
+                <h4>Création de Site Internet Vitrine</h4>
+                <p>Développement d'un site web moderne, responsive et optimisé pour le référencement de votre entreprise ou agence.</p>
+                <div class="price-tag">
+                    <span class="price">1.5 Pi</span>
+                    <button class="btn btn-accent btn-sm" onclick="lancerPaiement(1.5, 'Site Internet Vitrine')">Commander</button>
+                </div>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="card">
+                <h4>Développement d'Application Mobile</h4>
+                <p>Conception et déploiement d'une application mobile personnalisée adaptée aux smartphones Android et iOS.</p>
+                <div class="price-tag">
+                    <span class="price">3.0 Pi</span>
+                    <button class="btn btn-accent btn-sm" onclick="lancerPaiement(3.0, 'Application Mobile')">Commander</button>
+                </div>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="card">
+                <h4>Audit et Intégration Web3 / Pi SDK</h4>
+                <p>Configuration technique, sécurisation et liaison de vos applications au réseau décentralisé et système de paiement Pi.</p>
+                <div class="price-tag">
+                    <span class="price">1.0 Pi</span>
+                    <button class="btn btn-accent btn-sm" onclick="lancerPaiement(1.0, 'Intégration Pi SDK')">Commander</button>
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Berthyss003xchange. Tous droits réservés.</p>
+        </footer>
+    </div>
+
+    <!-- LOGIQUE JAVASCRIPT ET FUSION DU SDK -->
+    <script>
+        // Initialisation immédiate du SDK Pi Network
+        const Pi = window.Pi;
+        Pi.init({ 
+            version: "2.0", 
+            sandbox: true // Garde cette option pour simuler les transactions sans vrais jetons
+        });
+
+        // Gestionnaire de connexion
+        async function connecterPionnier() {
+            try {
+                const scopes = ['username', 'payments'];
+                
+                // Fonction de sécurité pour gérer les transactions interrompues
+                const onIncompletePaymentFound = (payment) => {
+                    console.log("Paiement incomplet détecté :", payment);
+                };
+                
+                // Appel d'authentification
+                const auth = await Pi.authenticate(scopes, onIncompletePaymentFound);
+                
+                // Mise à jour dynamique de l'interface graphique
+                document.getElementById('user-greeting').innerText = `Bienvenue, ${auth.user.username} !`;
+                document.getElementById('auth-block').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                
+                console.log(`Authentification réussie pour : ${auth.user.username}`);
+            } catch (error) {
+                console.error("Échec de la connexion SDK :", error);
+                alert("Erreur de connexion. Assurez-vous d'ouvrir cette page directement depuis l'application Pi Browser.");
+            }
+        }
+
+        // Système de paiement universel et dynamique
+        async function lancerPaiement(montant, nomDuService) {
+            try {
+                console.log(`Création de la demande pour : ${nomDuService} (${montant} Pi)`);
+                
+                const payment = await Pi.createPayment({
+                    amount: montant,
+                    memo: `Achat Service : ${nomDuService}`,
+                    metadata: { serviceRequested: nomDuService },
+                }, {
+                    // Étape de traitement côté infrastructure de l'app
+                    onReadyForServerApproval: function(paymentId) {
+                        console.log(`Paiement approuvé par le réseau Pi. ID interne : ${paymentId}`);
+                    },
+                    
+                    // Étape finale sur la blockchain après validation par le portefeuille
+                    onReadyForServerCompletion: function(paymentId, txid) {
+                        console.log(`Paiement inscrit sur la Blockchain. Hash ID : ${txid}`);
+                        alert(`Félicitations ! Votre simulation de paiement pour le service "${nomDuService}" (${montant} Pi) a réussi.`);
+                    },
+                    
+                    // Annulation volontaire
+                    onCancel: function(paymentId) {
+                        console.log(`Paiement annulé par le client pour l'ID : ${paymentId}`);
+                        alert("Vous avez annulé la transaction.");
+                    },
+                    
+                    // Problème technique
+                    onError: function(error, payment) {
+                        console.error("Erreur critique de transaction :", error);
+                        alert("La transaction n'a pas pu aboutir.");
+                    }
+                });
+            } catch (error) {
+                console.error("Le module de paiement a rencontré une erreur d'initialisation :", error);
+                alert("Impossible de lancer le module de paiement Pi Wallet.");
+            }
+        }
+    </script>
+</body>
+</html>
