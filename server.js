@@ -1,21 +1,23 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path'); // Permet de gérer les fichiers
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Autoriser ton site frontend à interagir avec le serveur
 app.use(cors());
 app.use(express.json());
 
-// Récupération de ta clé sécurisée stockée sur Render
+// Permet de lire les fichiers de ton projet (CSS, images, etc.)
+app.use(express.static(path.join(__dirname)));
+
 const piApiKey = process.env.PI_API_KEY;
 
-// Une route simple pour vérifier que le serveur fonctionne
+// MODIFICATION : L'adresse principale affiche maintenant ton fichier index.html
 app.get('/', (req, res) => {
-  res.send('Le serveur PiXchange est en ligne et sécurisé !');
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Route test pour vérifier si la clé est bien détectée (sans l'afficher en entier)
+// Route de test pour la clé
 app.get('/check-config', (req, res) => {
   if (piApiKey) {
     res.json({ status: "success", message: "La clé Pi API est bien configurée en arrière-plan." });
